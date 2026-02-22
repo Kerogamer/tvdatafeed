@@ -435,6 +435,7 @@ class TvDatafeedLive(tvDatafeed.TvDatafeed):
         n_bars: int = 10,
         fut_contract: int = None,
         extended_session: bool = False,
+        adjustment: str = "splits",
         timeout=-1,
     ): 
         '''
@@ -457,6 +458,9 @@ class TvDatafeedLive(tvDatafeed.TvDatafeed):
         extended_session : bool, optional 
             regular session if False, extended session if True, 
             Defaults to False.
+        adjustment : str, optional
+            price adjustment. Options: "splits", "dividends",
+            "splits+dividends", or "" for none. Defaults to "splits".
 
         Returns
         -------
@@ -466,7 +470,7 @@ class TvDatafeedLive(tvDatafeed.TvDatafeed):
         '''
         if self._lock.acquire(timeout=timeout) is False:
             return False
-        data=super().get_hist(symbol, exchange, interval, n_bars, fut_contract, extended_session)
+        data=super().get_hist(symbol=symbol, exchange=exchange, interval=interval, n_bars=n_bars, fut_contract=fut_contract, extended_session=extended_session, adjustment=adjustment)
         self._lock.release()
         
         return data
