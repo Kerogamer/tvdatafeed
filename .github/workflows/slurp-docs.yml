@@ -22,6 +22,9 @@ jobs:
       - name: Install slurp-ai
         run: npm install -g slurp-ai
 
+      - name: Allow Chrome to use user namespaces (required on Ubuntu 24+)
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: Run slurp on PortfolioBoss documentation
         run: slurp https://portfolioboss.com/documentation/ --yes
 
